@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Delete, HttpCode, Header, BadRequestException, Param } from "@nestjs/common";
+import { Controller, Get, Post, Delete, HttpCode, Header, BadRequestException, Param, Query, Body } from "@nestjs/common";
 import { ok } from "assert";
 
 // /juegos-http
@@ -39,9 +39,33 @@ export class HttpJuegoController {
             const edad = Number(parametrosRuta.edad);
             const altura = Number(parametrosRuta.altura);
             return edad + altura;
+        } 
+    }
+
+    @Get('parametros-consulta')
+    parametrosConsulta(
+        @Query() parametrosDeConsulta
+    ){
+        console.log('parametrosDeConsulta',parametrosDeConsulta);
+        console.log(Object.keys(parametrosDeConsulta).length);
+        //if (Object.keys(parametrosDeConsulta).length === 2){
+        if ('nombre' in parametrosDeConsulta && 'apellido' in parametrosDeConsulta){
+            console.log(parametrosDeConsulta.nombre);
+            console.log(parametrosDeConsulta['nombre']);
+            return parametrosDeConsulta['nombre'] +" "+ parametrosDeConsulta['apellido'];
+        }   
+        else{
+            return '=)';
         }
+    }
 
-
-        
+    @Post('parametros-cuerpo')
+    parametrosCuerpo(
+        @Body() parametrosDeCuerpo
+    ){
+        console.log('Parametros de cuerpo', parametrosDeCuerpo);
+        console.log(parametrosDeCuerpo['mascota']);
+        console.log(parametrosDeCuerpo.mascota);
+        return 'Registro creado';
     }
 }
