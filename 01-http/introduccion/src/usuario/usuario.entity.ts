@@ -1,4 +1,6 @@
-import { Entity, PrimaryColumn, PrimaryGeneratedColumn, Column, Index } from "typeorm";
+import { Entity, PrimaryColumn, PrimaryGeneratedColumn, Column, Index, OneToMany } from "typeorm";
+import { MascotaEntity } from "src/mascota/mascota.entity";
+import { MascotaModule } from "src/mascota/mascota.module";
 
 @Index([
     'nombre',
@@ -7,10 +9,10 @@ import { Entity, PrimaryColumn, PrimaryGeneratedColumn, Column, Index } from "ty
     'fechaNacimiento' //Nombres de las propiedades en la clase
 ])
 
-@Index(
-    ['nombre', 'apellido', 'cedula'],
-    {unique: true}
-)
+// @Index(
+//     ['nombre', 'apellido', 'cedula'],
+//     {unique: true}
+// )
 
 @Entity('epn_usuario')
 export class UsuarioEntity{
@@ -67,4 +69,12 @@ export class UsuarioEntity{
         name: 'fecha_hora_nacimiento'
     })
     fechaHoraNacimiento?: string;
+
+    @OneToMany(
+        type => MascotaEntity, //Que entidad nos relacionamos
+        mascota => mascota.usuario
+    )
+    mascotas: MascotaEntity[];
+
+    
 }
